@@ -6,41 +6,44 @@
           <body class="h-full">
           ```
         */}
-        import { Fragment, useState } from 'react'
+import { Fragment, useState } from 'react'
+import { Outlet, Link } from 'react-router-dom'
 import { Dialog, Transition } from '@headlessui/react'
 import {
-  ChartBarSquareIcon,
-  Cog6ToothIcon,
   FolderIcon,
-  GlobeAltIcon,
   ServerIcon,
   SignalIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { Bars3Icon } from '@heroicons/react/20/solid'
 
 const navigation = [
-
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Deployments', href: '#', icon: ServerIcon, current: true },
-  { name: 'Activity', href: '#', icon: SignalIcon, current: false },
-]
-
-const secondaryNavigation = [
-  { name: 'Overview', href: '#', current: true },
-  { name: 'Activity', href: '#', current: false },
-  { name: 'Settings', href: '#', current: false },
-]
-const stats = [
-  { name: 'Number of deploys', value: '405' },
-  { name: 'Average deploy time', value: '3.65', unit: 'mins' },
-  { name: 'Number of servers', value: '3' },
-  { name: 'Success rate', value: '98.5%' },
+  { name: 'Overview', href: '/  ', icon: FolderIcon, current: false },
+  { name: 'Scan', href: '/scan', icon: ServerIcon, current: true },
+  { name: 'Activity', href: '/activity', icon: SignalIcon, current: false },
 ]
 const statuses = { Completed: 'text-green-400 bg-green-400/10', Error: 'text-rose-400 bg-rose-400/10' }
+const activityItems = [
+  {
+    user: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+    commit: '2d89f0c8',
+    branch: 'main',
+    status: 'Completed',
+    duration: '25s',
+    date: '45 minutes ago',
+    dateTime: '2023-01-23T11:00',
+  },
+]
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
-const App = () => {
+const HomeLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     return (
         <div>
@@ -100,24 +103,26 @@ const App = () => {
                             <ul role="list" className="-mx-2 space-y-1">
                               {navigation.map((item) => (
                                 <li key={item.name}>
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.href}
                                     className={classNames(
                                       item.current
                                         ? 'bg-gray-800 text-white'
                                         : 'text-gray-400 hover:text-white hover:bg-gray-800',
                                       'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                     )}
+                                    onClick={() => setSidebarOpen(false)}
                                   >
+
                                     <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
                           </li>
                           <li className="-mx-6 mt-auto">
-                            <a
+                            <Link
                               href="#"
                               className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
                             >
@@ -128,7 +133,7 @@ const App = () => {
                               />
                               <span className="sr-only">Your profile</span>
                               <span aria-hidden="true">Tom Cook</span>
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       </nav>
@@ -156,7 +161,7 @@ const App = () => {
                     <ul role="list" className="-mx-2 space-y-1">
                       {navigation.map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             href={item.href}
                             className={classNames(
                               item.current
@@ -167,13 +172,13 @@ const App = () => {
                           >
                             <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
                   </li>
                   <li className="-mx-6 mt-auto">
-                    <a
+                    <Link
                       href="#"
                       className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
                     >
@@ -184,7 +189,7 @@ const App = () => {
                       />
                       <span className="sr-only">Your profile</span>
                       <span aria-hidden="true">Tom Cook</span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -202,33 +207,14 @@ const App = () => {
   
             <main>
               <header>
-                {/* Secondary navigation */}
-                <nav className="flex overflow-x-auto border-b border-white/10 py-4">
-                  <ul
-                    role="list"
-                    className="flex min-w-full flex-none gap-x-6 px-4 text-sm font-semibold leading-6 text-gray-400 sm:px-6 lg:px-8"
-                  >
-                    {secondaryNavigation.map((item) => (
-                      <li key={item.name}>
-                        <a href={item.href} className={item.current ? 'text-indigo-400' : ''}>
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-  
-                {/* Heading */}
-                
-  
-              
-              </header>
-  
-           </main>
+
+              </header>       
+              <Outlet/>
+            </main>
           </div>
         </div>
     )
 }
 
 
-export default App
+export default HomeLayout
