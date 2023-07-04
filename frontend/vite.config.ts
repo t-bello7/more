@@ -12,7 +12,7 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
     {
       "name": "More",
       "short_name": "More",
-      "start_url": "More",
+      "start_url": "/",
       "display": "standalone",
       "description": "A description for your application",
       "lang": "An app that can grade the quality of fruits",
