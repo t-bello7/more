@@ -147,7 +147,7 @@ const HomeLayout = () => {
                       {navigation.map((item) => (
                         <li key={item.name}>
                           <Link
-                            href={item.href}
+                            to={item.href}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-800 text-white'

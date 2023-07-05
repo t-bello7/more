@@ -1,9 +1,10 @@
 import os
 import sys
 import numpy as np
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, session
+from flask_cors import CORS
+from flask_session import Session
 from werkzeug.utils import secure_filename
-
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 from PIL import Image, ImageFile
@@ -14,6 +15,10 @@ import base64
 
 
 app = Flask(__name__)
+CORS(app,  resources={r"/api/*": {"origins": "*"}})
+app.config['SESSION_TYPE'] = 'filesystem'
+app.secret_key = 'super secret key'
+Session(app)
 
 @app.route('/')
 def home():
@@ -41,17 +46,25 @@ def pred():
 
 @app.route('/api/classify-fruit', methods=['POST'])
 def classify_fruit():
-    img_file = request.files['file']
-    org_img, img= my_tf_mod.preprocess(img_file)
+    if 'imageFile' not in request.files:
+        return jsonify({"error":"No file part"})
+    img_file = request.files['imageFile']
+    org_img, img = my_tf_mod.preprocess(img_file)
     fruit_dict=my_tf_mod.classify_fruit(img)
-    return jsonify({"data": fruit_dict})
+    response = jsonify({"data": fruit_dict})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 @app.route('/api/grade-fruit', methods=['POST'])
 def grade_fruit():
-    img_file = request.files['file']
+    if 'imageFile' not in request.files:
+        return jsonify({"error":"No file part"})
+    img_file = request.files['imageFile']
     org_img, img= my_tf_mod.preprocess(img_file)
     rotten=my_tf_mod.check_rotten(img)
-    return jsonify({"data": rotten})
+    response = jsonify({"data": rotten})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__=='__main__':
     app.run(debug=True)
