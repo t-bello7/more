@@ -15,7 +15,9 @@ import base64
 
 
 app = Flask(__name__)
-CORS(app,  resources={r"/api/*": {"origins": ["http://localhost:5173", "https://more-omega.vercel.app"]}})
+# CORS(app,  resources={r"/api/*": {"origins": ["http://localhost:5173", "https://more-omega.vercel.app"]}})
+CORS(app,  resources={r"/api/*": {"origins": "*"}})
+
 app.config['SESSION_TYPE'] = 'filesystem'
 app.secret_key = 'super secret key'
 # app.register_error_handler(400, handle_bad_request)
@@ -44,6 +46,7 @@ def pred():
 
 @app.route('/api/classify-fruit', methods=['POST'])
 def classify_fruit():
+    print(request.files)
     try:
         if 'imageFile' not in request.files:
             return jsonify({"error":"No file part"})
@@ -51,9 +54,9 @@ def classify_fruit():
         org_img, img = my_tf_mod.preprocess(img_file)
         fruit_dict=my_tf_mod.classify_fruit(img)
         response = jsonify({"data": fruit_dict})
-        response.headers.add('Access-Control-Allow-Origin', ["http://localhost:5173", "https://more-omega.vercel.app"])
-        response.headers.add('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept')
-        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH')
+        # response.headers.add('Access-Control-Allow-Origin', ["http://localhost:5173", "https://more-omega.vercel.app"])
+        # response.headers.add('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept')
+        # response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH')
         return response
     except:
         return 'bad request!', 400
@@ -67,9 +70,9 @@ def grade_fruit():
         org_img, img= my_tf_mod.preprocess(img_file)
         rotten=my_tf_mod.check_rotten(img)
         response = jsonify({"data": rotten})
-        response.headers.add('Access-Control-Allow-Origin', ["http://localhost:5173", "https://more-omega.vercel.app"])
-        response.headers.add('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept')
-        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH')
+        # response.headers.add('Access-Control-Allow-Origin', ["http://localhost:5173", "https://more-omega.vercel.app"])
+        # response.headers.add('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept')
+        # response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH')
         return response
     except:
         return 'bad request!', 400
