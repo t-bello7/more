@@ -23,7 +23,7 @@ const Scan = () => {
           type: 'image/png',
         });
         const form = new FormData();
-        form.append("imageFile", newBlob, "filename");
+        form.append("formData", newBlob, "filename");
         return form;
       };
       
@@ -31,14 +31,13 @@ const Scan = () => {
         const pictureSrc = webcamRef.current.getScreenshot()
         const imageFile = convertBase64ToFile(pictureSrc)
         setFormValues((prev) => ({
-          imageFile: imageFile,
+          formData: imageFile,
         }));
-        console.log(formValues);
         setPicture(pictureSrc)
     })
     
-    const { data, uploadForm, progress } = useUploadForm(" http://127.0.0.1:5000/api/classify-fruit");
-    const { data: gradeData, uploadForm: uploadImage, progress: uploadProgress } = useUploadForm(" http://127.0.0.1:5000/api/grade-fruit");
+    const { data, uploadForm, progress } = useUploadForm("/api/classify-fruit");
+    const { data: gradeData, uploadForm: uploadImage, progress: uploadProgress } = useUploadForm("/api/grade-fruit");
 
     const submitHandler = async(e) => {
         e.preventDefault()
@@ -65,6 +64,7 @@ const Scan = () => {
           });
         }        
     }
+    console.log(formValues);
 
     return(
         <div className="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">

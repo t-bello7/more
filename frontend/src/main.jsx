@@ -22,18 +22,18 @@ const router = createBrowserRouter([
     element: <HomeLayout />,
     errorElement: <ErrorPage />,
     children: [
+      // {
+      //   path: "",
+      //   element: <Overview />
+      // },
       {
         path: "",
-        element: <Overview />
-      },
-      {
-        path: "scan",
         element: <Scan />
       },
-      {
-        path: "activity",
-        element: <Activity />
-      }
+      // {
+      //   path: "activity",
+      //   element: <Activity />
+      // }
     ]
   }
 

@@ -70,12 +70,9 @@ def grade_fruit():
         org_img, img= my_tf_mod.preprocess(img_file)
         rotten=my_tf_mod.check_rotten(img)
         response = jsonify({"data": rotten})
-        # response.headers.add('Access-Control-Allow-Origin', ["http://localhost:5173", "https://more-omega.vercel.app"])
-        # response.headers.add('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept')
-        # response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH')
         return response
     except:
         return 'bad request!', 400
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='172.20.0.1')

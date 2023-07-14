@@ -18,9 +18,9 @@ import {
 import { Bars3Icon } from '@heroicons/react/20/solid'
 
 const navigation = [
-  { name: 'Overview', href: '/  ', icon: FolderIcon, current: false },
-  { name: 'Scan', href: '/scan', icon: ServerIcon, current: false },
-  { name: 'Activity', href: '/activity', icon: SignalIcon, current: false },
+  { name: 'Scan', href: '/  ', icon: FolderIcon, current: false },
+  // { name: 'Scan', href: '/scan', icon: ServerIcon, current: false },
+  // { name: 'Activity', href: '/activity', icon: SignalIcon, current: false },
 ]
 
 

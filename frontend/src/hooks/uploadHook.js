@@ -8,7 +8,7 @@ export const useUploadForm = (url) => {
 
     const uploadForm = async (formData) => {
         setIsLoading(true);
-        const response = await axios.post(url, formData, {
+        const response = await axios.post(`http://192.168.137.18${url}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },
